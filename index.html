@@ -2,102 +2,150 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Christell & Janeth</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@300;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
+        /* Reset y estilos base */
+        * { box-sizing: border-box; }
+        
         body {
             margin: 0;
             padding: 0;
             font-family: 'Montserrat', sans-serif;
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
-                        url('https://images.unsplash.com/photo-1518199266791-5375a83190b7?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'); /* Imagen romántica de fondo */
+            /* Imagen vertical (portrait) para adaptarse mejor al móvil */
+            background: linear-gradient(rgba(20, 20, 20, 0.6), rgba(20, 20, 20, 0.6)), 
+                        url('https://images.unsplash.com/photo-1621252179027-94459d278660?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
             background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
+            background-position: center center;
+            background-attachment: scroll; /* Mejor rendimiento en iOS */
             color: white;
             text-align: center;
-            height: 100vh;
+            /* Usamos 100dvh para manejar mejor las barras del navegador móvil */
+            min-height: 100dvh;
             display: flex;
             flex-direction: column;
             justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
         }
 
         .container {
-            padding: 20px;
+            padding: 30px 20px;
+            width: 100%;
+            max-width: 500px; /* Evita que se estire demasiado en iPad */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
+        /* Corazón animado */
+        .heart-container { margin-bottom: 15px; }
+        .heart {
+            color: #ff4d4d;
+            font-size: 3.5rem;
+            animation: beat 1.2s ease-in-out infinite;
+            text-shadow: 0 0 15px rgba(255, 77, 77, 0.5);
+        }
+
+        /* Títulos */
         h1 {
             font-family: 'Dancing Script', cursive;
-            font-size: 3rem;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            font-size: 3.5rem;
+            margin: 0 0 15px 0;
+            text-shadow: 2px 2px 6px rgba(0,0,0,0.7);
+            line-height: 1.1;
         }
 
         .locations {
-            font-size: 1rem;
-            letter-spacing: 2px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            letter-spacing: 3px;
             text-transform: uppercase;
             margin-bottom: 30px;
             opacity: 0.9;
+            background: rgba(255,255,255,0.1);
+            padding: 5px 15px;
+            border-radius: 20px;
+            display: inline-block;
         }
 
+        /* Estilo del Conteo Regresivo */
         #countdown {
             display: flex;
             justify-content: center;
-            gap: 15px;
-            margin-bottom: 30px;
+            gap: 10px; /* Espacio entre cuadros */
+            margin-bottom: 40px;
+            width: 100%;
         }
 
         .time-box {
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
-            padding: 15px;
-            border-radius: 10px;
-            min-width: 70px;
+            /* Efecto cristal mejorado para pantallas retina */
+            background: rgba(255, 255, 255, 0.15);
+            -webkit-backdrop-filter: blur(15px); /* Soporte iOS */
+            backdrop-filter: blur(15px);
+            padding: 15px 5px;
+            border-radius: 15px;
+            flex: 1; /* Hace que todos los cuadros tengan el mismo ancho */
+            max-width: 85px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
 
         .time-box span {
             display: block;
-            font-size: 2rem;
-            font-weight: bold;
+            font-size: 2.2rem;
+            font-weight: 600;
+            line-height: 1;
+            margin-bottom: 5px;
         }
 
         .label {
-            font-size: 0.7rem;
+            font-size: 0.75rem;
             text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.8;
         }
 
-        .message {
-            font-size: 1.2rem;
+        /* Área de Frases Rotativas */
+        .quotes-container {
+            min-height: 80px; /* Mantiene el espacio fijo */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .quote-text {
+            font-size: 1.3rem;
             font-style: italic;
-            max-width: 80%;
-            margin: 0 auto;
-            line-height: 1.6;
+            line-height: 1.5;
+            font-weight: 300;
+            transition: opacity 0.5s ease-in-out;
         }
 
-        .heart {
-            color: #ff4d4d;
-            font-size: 2rem;
-            animation: beat 1s infinite;
-        }
-
+        /* Animación del corazón */
         @keyframes beat {
             0% { transform: scale(1); }
-            50% { transform: scale(1.2); }
+            50% { transform: scale(1.15); }
             100% { transform: scale(1); }
+        }
+
+        /* Ajustes finos para pantallas muy estrechas */
+        @media (max-width: 380px) {
+            h1 { font-size: 2.8rem; }
+            .time-box span { font-size: 1.8rem; }
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <div class="heart">❤</div>
+        <div class="heart-container">
+            <div class="heart">❤</div>
+        </div>
         <h1>Christell & Janeth</h1>
-        <div class="locations">León ➔ Cd. Juárez</div>
+        <div class="locations">León ✈ Cd. Juárez</div>
         
-        <p>Falta muy poco para vernos...</p>
-
         <div id="countdown">
             <div class="time-box">
                 <span id="days">00</span>
@@ -117,35 +165,81 @@
             </div>
         </div>
 
-        <div class="message">
-            "No importa la distancia entre Guanajuato y Chihuahua, <br>
-            nuestro momento llega el viernes a las 11:40 PM."
+        <div class="quotes-container">
+            <div class="quote-text" id="rotating-quote">
+                "Contando cada segundo para tenerte cerca."
+            </div>
         </div>
     </div>
 
     <script>
-        // Fecha objetivo: 9 de Enero 2026, 23:40:00
+        /* ================= 
+           LÓGICA DEL CONTEO 
+           ================= */
+        // Fecha objetivo: Viernes 9 de Enero 2026, 23:40:00
         const targetDate = new Date("January 9, 2026 23:40:00").getTime();
 
         const timer = setInterval(function() {
             const now = new Date().getTime();
             const distance = targetDate - now;
 
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            // Cálculos de tiempo
+            let days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            let seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
+            // Añadir ceros a la izquierda si es necesario (ej. "05" en lugar de "5")
+            days = days < 10 ? "0" + days : days;
+            hours = hours < 10 ? "0" + hours : hours;
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+
+            // Actualizar el HTML
             document.getElementById("days").innerHTML = days;
             document.getElementById("hours").innerHTML = hours;
             document.getElementById("minutes").innerHTML = minutes;
             document.getElementById("seconds").innerHTML = seconds;
 
+            // Cuando el conteo termina
             if (distance < 0) {
                 clearInterval(timer);
-                document.querySelector(".container").innerHTML = "<h1>¡YA ESTAMOS JUNTAS! ❤</h1>";
+                document.querySelector(".container").innerHTML = "<h1>¡El momento ha llegado, mi amor! ❤</h1>";
             }
         }, 1000);
+
+
+        /* ================= 
+           LÓGICA DE LAS FRASES 
+           ================= */
+        const quotes = [
+            "No importa la distancia entre León y Juárez, ya casi estamos juntas.",
+            "Cada día que pasa es una victoria más cerca de ti.",
+            "Mi lugar favorito en el mundo es a tu lado.",
+            "La espera valdrá la pena en el segundo que te vea.",
+            "Viernes 9 de Enero: nuestro día soñado.",
+            "Te pienso en cada momento, Janeth."
+        ];
+
+        let quoteIndex = 0;
+        const quoteElement = document.getElementById("rotating-quote");
+
+        function rotateQuote() {
+            // Efecto de desvanecimiento
+            quoteElement.style.opacity = 0;
+            
+            setTimeout(() => {
+                // Cambiar el texto cuando está invisible
+                quoteIndex = (quoteIndex + 1) % quotes.length;
+                quoteElement.innerHTML = '"' + quotes[quoteIndex] + '"';
+                // Volver a hacerlo visible
+                quoteElement.style.opacity = 1;
+            }, 500); // Espera 0.5s para cambiar el texto
+        }
+
+        // Cambiar frase cada 5 segundos (5000 ms)
+        setInterval(rotateQuote, 5000);
+
     </script>
 </body>
 </html>
